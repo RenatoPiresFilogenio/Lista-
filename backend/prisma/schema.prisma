@@ -11,69 +11,32 @@ datasource db {
 }
 
 // criar uma migration: yarn prisma migrate dev
-model User {
+
+model User{
+ id String   @id @default(uuid()) 
+ email String   @unique 
+ name String 
+ password String
+ createdAt DateTime @default(now())    
+ updatedAt DateTime @updatedAt 
+ categories  Categories[]
+
+}
+
+model Categories{
   id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
   name String
-  email String
-  password String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  @@map("users")
+  task Task[]
 }
 
-model Category{
+model Task{
   id String @id @default(uuid())
+  categoriesId String
+  categories Categories @relation(fields: [categoriesId], references: [id])
   name String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  @@map("categories")
-  products Product[]
-}
-
-model Product{
-  id String @id @default(uuid())
-  name String
-  price String
-  description String
-  banner String
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  category Category @relation(fields: [category_id], references: [id])
-
-  @@map("products")
-  category_id String
-  items Item[]
-}
-
-model Order{
-  id String @id @default(uuid())
-  table Int
-  status Boolean @default(false)
-  draft Boolean @default(true)
-  name String?
-
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  @@map("orders")
-  items Item[]
-}
-
-model Item{
-  id String @id @default(uuid())
-  amount Int
-
-  created_at DateTime? @default(now())
-  updated_at DateTime? @default(now())
-
-  order Order @relation(fields: [order_id], references: [id])
-  product Product @relation(fields: [product_id], references: [id])
-
-  @@map("items")
-  order_id String
-  product_id String
-
+  done Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
