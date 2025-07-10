@@ -1,12 +1,13 @@
 import bcrypt from 'bcryptjs';
 import prismaClient from '../../prisma';
 import nodemailer from "nodemailer";
-
+import { sign } from "jsonwebtoken";
 
 interface UserProp{
     email: string;
     name: string;
     password: string;
+   
 }
 
 class userCreateService{
@@ -41,11 +42,11 @@ class userCreateService{
       
         const createUser = await prismaClient.user.create({
           data:{
-            email,name,password: hashPassword
+            email,name,password: hashPassword, emailVerifiedAt: null
           },select:{
             id:true,
             name:true,
-            email:true
+            email:true,
           }
         })
 
@@ -58,12 +59,38 @@ class userCreateService{
 
         })
 
+
+        const token = sign(
+        { userId: createUser.id },
+        process.env.JWT_SECRET as string,
+        { expiresIn: '10m' }
+          );
+
+
         const mailOptions = {
-          from: process.env.EMAIL,
-          to: createUser.email,
-          subject: "Confirme seu email clicando no link",
-          text:'http://localhost:3333/'
-        }
+        from: process.env.EMAIL,
+        to: createUser.email,
+        subject: "Confirme seu email clicando no botão",
+        html: `
+                <p>Olá ${createUser.name},</p>
+                <p>Por favor para se registrar em Lista+, confirme seu email clicando no botão abaixo:</p>
+                <a href="http://localhost:3333/verify-email?token=${token}" 
+                  style="
+                    display: inline-block;
+                    padding: 10px 20px;
+                    font-size: 16px;
+                    color: white;
+                    background-color: #007bff;
+                    text-decoration: none;
+                    border-radius: 5px;
+                  ">
+                  Confirmar Email
+                </a>
+                <p>Se você não solicitou este email, pode ignorar.</p>
+              `
+            };
+
+        await emailconfig.sendMail(mailOptions);
 
         return createUser
     }

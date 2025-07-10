@@ -10,33 +10,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// criar uma migration: yarn prisma migrate dev
+// criar uma migration: npm prisma migrate dev
 
-model User{
- id String   @id @default(uuid()) 
- email String   @unique 
- name String 
- password String
- createdAt DateTime @default(now())    
- updatedAt DateTime @updatedAt 
- categories  Categories[]
-
+model User {
+  id              String     @id @default(uuid())
+  email           String     @unique
+  name            String
+  password        String
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  emailVerifiedAt DateTime?
+  categories      Category[]
 }
 
-model Categories{
-  id String @id @default(uuid())
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  name String
-  task Task[]
+model Category {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  name      String
+  tasks     Task[]   
 }
 
-model Task{
-  id String @id @default(uuid())
-  categoriesId String
-  categories Categories @relation(fields: [categoriesId], references: [id])
-  name String
-  done Boolean @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model Task {
+  id          String    @id @default(uuid())
+  categoryId  String
+  category    Category  @relation(fields: [categoryId], references: [id])
+  name        String
+  done        Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 }

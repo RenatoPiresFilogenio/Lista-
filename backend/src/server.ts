@@ -2,33 +2,29 @@ import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors';
 import cors from 'cors';
 
-import { router } from './routes'
-
+import { router } from './routes/routes'
+// origin: "http://localhost:3000" url do meu front 
 const app = express();
 app.use(express.json());
 app.use(cors({
- origin: "http://localhost:3333",
- credentials: true
+ origin: "http://localhost:3000",
 }
 ));
 
 app.use(router);
-
+// connect-src 'self' http://localhost:3333; API
 app.use((req, res, next) => {
-  res.setHeader(
-    'Content-Security-Policy',
-    ` 
-      default-src 'self' http://localhost:3333;
-      script-src 'self';
-      style-src 'self';
-      img-src 'self' data:;
-      connect-src 'self' http://localhost:3333;
-      font-src 'self';
-      frame-ancestors 'none';
-      object-src 'none';
-      base-uri 'self';
-    `.replace(/\n/g, '') 
-  );
+  res.setHeader('Content-Security-Policy', `
+  default-src 'self';
+  script-src 'self';
+  style-src 'self';
+  img-src 'self' data:;
+  connect-src 'self' http://localhost:3333;
+  font-src 'self';
+  frame-ancestors 'none';
+  object-src 'none';
+  base-uri 'self';
+`.replace(/\n/g, ''));
   next();
 });
 
