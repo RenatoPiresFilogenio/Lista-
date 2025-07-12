@@ -22,7 +22,11 @@ class userAuthService {
         if(!user){
             throw new Error("Email não encontrado")
         }
-        
+
+        if(user.emailVerifiedAt == null){
+             throw new Error("Usuário não verificado");
+        }
+
         const isPasswordCorrect = await compare(password,user.password);
 
         if(!isPasswordCorrect){

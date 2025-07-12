@@ -30,7 +30,6 @@ export function isAuthenticated(req: Request, res: Response, next: NextFunction)
         ) as IdSub
 
         req.userId = sub;
-
         return next();
     } catch (error) {
         return res.status(401).end();

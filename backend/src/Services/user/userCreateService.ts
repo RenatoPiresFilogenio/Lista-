@@ -12,6 +12,7 @@ interface UserProp{
 
 class userCreateService{
     async execute({email,name,password}:UserProp){
+      
        if (!email || !name || !password) {
       throw new Error("Todos os campos (email, nome e senha) são obrigatórios.");
     }
@@ -20,9 +21,9 @@ class userCreateService{
         throw new Error("senha precisa ter 8 carecteres no minimo.");
     }
     
-    const emailRegex = /^[^\s@]+@(gmail\.com|hotmail\.com(\.br)?)$/;
+    const emailRegex = /^[^\s@]+@(gmail\.com(\.br)?)$/;
     if (!emailRegex.test(email)) {
-      throw new Error("Aceitamos apenas emails @gmail.com ou @hotmail.com.");
+      throw new Error("Aceitamos apenas emails @gmail.com e @gmail.com.br");
     }
 
     const findMail = await prismaClient.user.findFirst({

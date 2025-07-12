@@ -10,12 +10,13 @@ export async function ConfirmEmail(req: Request, res: Response) {
   }
 
   try {
-    // Decodifica e verifica o token JWT
+
+    
     const decoded = verify(token, process.env.JWT_SECRET as string) as {
       userId: string;
     };
 
-    // Atualiza o usuário no banco
+   
     await prismaClient.user.update({
       where: { id: decoded.userId },
       data: { emailVerifiedAt: new Date() }

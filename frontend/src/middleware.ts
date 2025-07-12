@@ -10,7 +10,7 @@ export async function middleware(req:NextRequest) {
     }
     
     const token = await getCookieServer();
-  if(pathname.startsWith("/dashboard")){
+  if(pathname.startsWith("/home")){
     if(!token){
         return NextResponse.redirect(new URL("/", req.url))
     }
@@ -29,7 +29,7 @@ async function validateToken(token:string) {
     if(!token) return false;
 
     try {
-        await api.get("/userLogin",{
+        await api.get("/user",{
             headers:{
                 Authorization: `Bearer ${token}`
             }
