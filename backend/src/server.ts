@@ -3,7 +3,7 @@ import 'express-async-errors';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import { router } from './Routes/routes';
+import { router } from './routes';
 
 const api = process.env.API ?? 'http://localhost:3333';
 const front = process.env.FRONTEND ?? 'http://localhost:3000';
