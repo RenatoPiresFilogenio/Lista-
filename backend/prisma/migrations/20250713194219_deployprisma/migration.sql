@@ -12,18 +12,9 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Category" (
-    "id" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-
-    CONSTRAINT "Category_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
 CREATE TABLE "Task" (
     "id" TEXT NOT NULL,
-    "categoryId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "done" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,7 +27,4 @@ CREATE TABLE "Task" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Category" ADD CONSTRAINT "Category_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Task" ADD CONSTRAINT "Task_categoryId_fkey" FOREIGN KEY ("categoryId") REFERENCES "Category"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
