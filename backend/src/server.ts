@@ -23,7 +23,7 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'"],
     styleSrc: ["'self'"],
     imgSrc: ["'self'", "data:"],
-    connectSrc: ["'self'", api ],
+    connectSrc: ["'self'", api ], 
     fontSrc: ["'self'"],
     objectSrc: ["'none'"],
     frameAncestors: ["'none'"],
