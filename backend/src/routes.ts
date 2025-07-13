@@ -4,7 +4,7 @@ import {isAuthenticated} from "./Middleware/isAuthenticated"
 import { userCreateController } from './Controllers/user/userCreateController';
 import { userAuthController } from './Controllers/user/userAuthController';
 import { userAutenticatedController } from './Controllers/user/userAutenticateController';
-import  {ConfirmEmail } from './Routes/ConfirmEmail';
+import  {ConfirmEmail } from './confirmEmail/ConfirmEmail';
 // import Task
 import { createTaskController } from './Controllers/task/createTaskController';
 import { listTaskController } from './Controllers/task/listTaskController';
