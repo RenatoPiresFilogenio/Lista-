@@ -36,7 +36,6 @@ async function validateToken(token:string) {
         })
         return true;
     } catch (error) {
-        console.log(error)
         return false;
     }
 }

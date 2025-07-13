@@ -18,9 +18,7 @@ export default function Signup(){
           password: password
         })
       
-        console.log(userCreated.data)
         
-
       } catch (error) {
         
       }
@@ -30,20 +28,26 @@ export default function Signup(){
   return(
     <div className={style.mainDivSignup}> 
       <br />
-      <form action={teste}>
+            <h1 className={style.logH1}>Cadastra-se</h1>
 
-      <input type="email" placeholder="email" name="email"/>
-      <br />
-      <input type="text"  placeholder="name" name="name"/>
-      <br />
-      <input type="password" placeholder="password"  name="password"/>
+            <p>Apenas gmail é aceito</p>
+            <p>A senha deve conter no minimo 8 caracteres</p>
+      <form action={teste} className={style.FormSignup}>
 
-      <button type="submit">Enviar</button>
+      <input type="email" placeholder="Email" name="email"/>
+      <br />
+      <input type="text"  placeholder="Nome" name="name"/>
+      <br />
+      <input type="password" placeholder="Senha"  name="password"/>
+      <br />
+      <button type="submit">Cadastrar-se</button>
+
+        <Link href={"/"} className={style.signupLink}>
+              <button>Ir para login</button>
+            </Link>
       </form>
 
-            <Link href={"/"} className={style.signupLink}>
-              <button>Logar</button>
-            </Link>
+           
     </div>
   );
 }

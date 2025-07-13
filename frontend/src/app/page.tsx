@@ -15,8 +15,7 @@ export default function Login(){
        return;
       }
         const response = await api.post("/userLog", {email,password})
-        console.log("API:"+api)
-
+        
       const CookieStore = await cookies();
       const cookieTime = 60 * 60 * 24; 
       CookieStore.set("session",response.data.token ,{

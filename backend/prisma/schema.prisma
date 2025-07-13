@@ -20,21 +20,12 @@ model User {
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   emailVerifiedAt DateTime?
-  categories      Category[]
+  tasks      Task[]
 }
-
-model Category {
-  id        String   @id @default(uuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  name      String
-  tasks     Task[]   
-}
-
 model Task {
   id          String    @id @default(uuid())
-  categoryId  String
-  category    Category  @relation(fields: [categoryId], references: [id])
+  userId  String
+  user    User  @relation(fields: [userId], references: [id])
   name        String
   done        Boolean   @default(false)
   createdAt   DateTime  @default(now())
