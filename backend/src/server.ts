@@ -5,11 +5,14 @@ import helmet from 'helmet';
 
 import { router } from './Routes/routes';
 
+const api = process.env.API ?? 'http://localhost:3333';
+const front = process.env.FRONTEND ?? 'http://localhost:3000';
+
 const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: front,
 }));
 
 app.use(helmet());
@@ -20,7 +23,7 @@ app.use(helmet.contentSecurityPolicy({
     scriptSrc: ["'self'"],
     styleSrc: ["'self'"],
     imgSrc: ["'self'", "data:"],
-    connectSrc: ["'self'", "http://localhost:3333"],
+    connectSrc: ["'self'", api ],
     fontSrc: ["'self'"],
     objectSrc: ["'none'"],
     frameAncestors: ["'none'"],
@@ -40,4 +43,4 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   });
 });
 
-app.listen(3333, () => console.log('Servidor online!!!!'));
+app.listen(process.env.PORT, () => console.log('Servidor online!!!!'));
