@@ -24,7 +24,7 @@ class userCreateController {
                 return res.json(user);
             }
             catch (error) {
-                return res.status(400).json({ error: "Erro ao criar usuário" });
+                return res.status(400).json({ error: "Erro ao criar usuário C" });
             }
         });
     }
