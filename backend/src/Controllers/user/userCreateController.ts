@@ -14,7 +14,8 @@ class userCreateController{
                 const user = await usercreateservice.execute({name,email,password})
                 return res.json(user)
             } catch (error) {
-                 return res.status(400).json({ error:"Erro ao criar usuário C" });
+                 console.error('Erro ao criar usuário:', error); 
+            return res.status(400).json({ error:"Erro ao criar usuário C" });
             }
         
        
