@@ -26,8 +26,8 @@ export default function Login(){
 
       })
 
-      } catch (error) {
-         console.error(error)
+      } catch {
+       
          return;
       }
        redirect("/home")
