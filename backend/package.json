@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
- "scripts": {
-  "dev": "ts-node-dev src/server.ts",
-  "build": "prisma generate && prisma migrate deploy && tsc --build",
-  "start": "node dist/server.js",
-  "prisma:generate": "prisma generate",
-  "postinstall": "prisma generate"
+"scripts": {
+  "postinstall": "prisma generate",
+  "vercel-build": "prisma generate && prisma migrate deploy && tsc --build",
+  "start": "node dist/server.js"
 }
 ,
   "devDependencies": {
