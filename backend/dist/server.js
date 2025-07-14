@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 require("express-async-errors");
 const cors_1 = __importDefault(require("cors"));
 const helmet_1 = __importDefault(require("helmet"));
-const routes_1 = require("./Routes/routes");
+const routes_1 = require("./routes");
 const api = (_a = process.env.API) !== null && _a !== void 0 ? _a : 'http://localhost:3333';
 const front = (_b = process.env.FRONTEND) !== null && _b !== void 0 ? _b : 'http://localhost:3000';
 const app = (0, express_1.default)();
