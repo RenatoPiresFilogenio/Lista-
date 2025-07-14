@@ -75,7 +75,7 @@ class userCreateService{
         html: `
                 <p>Olá ${createUser.name},</p>
                 <p>Por favor para se registrar em Lista+, confirme seu email clicando no botão abaixo:</p>
-           <a href="https://lista-de-tarefas-loie.vercel.app/signup?token=${token}"
+              <a href="https://lista-de-tarefas-loie.vercel.app/verify-email?token=${token}"
                   style="
                     display: inline-block;
                     padding: 10px 20px;

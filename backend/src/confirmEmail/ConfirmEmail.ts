@@ -22,7 +22,7 @@ export async function ConfirmEmail(req: Request, res: Response) {
       data: { emailVerifiedAt: new Date() }
     });
 
-    return res.redirect("http://localhost:3000");
+    return res.redirect("https://lista-de-tarefas-loie.vercel.app");
   } catch (error) {
     console.error(error);
     return res.status(400).send("Token expirado ou inválido.");
