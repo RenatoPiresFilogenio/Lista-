@@ -7,11 +7,13 @@ export default function Signup(){
   async function teste(formData:FormData){
     "use server"
     
-    try {
-      const email = formData.get("email");
-      const name = formData.get("name");
-      const password = formData.get("password");
+    const email = formData.get("email")?.toString() || "";
+    const name = formData.get("name")?.toString() || "";
+    const password = formData.get("password")?.toString() || "";
 
+
+    try {
+  
       await api.post("/user", {
         name,
         email,
