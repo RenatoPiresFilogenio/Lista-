@@ -21,24 +21,16 @@ export default function Home({ initialTaskName = "" }: Task) {
   const [name, setTask] = useState(initialTaskName);
   const [taskList, listTask] = useState<TaskItem[]>([]);
 
-  
   useEffect(() => {
     async function fetchTasks() {
       try {
         const token = await getCookieClient();
-        const response = await api.get("/taskList", {
+        const response = await api.get<TaskItem[]>("/taskList", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const tasksFromApi = response.data;
-
-        const formattedTasks = tasksFromApi.map((task: any) => ({
-          id: task.id,
-          name: task.name,
-          done: task.done,
-        }));
-
-        listTask(formattedTasks);
+        
+        listTask(response.data);
       } catch (error) {
         console.error("Erro ao buscar tarefas:", error);
       }
@@ -47,7 +39,6 @@ export default function Home({ initialTaskName = "" }: Task) {
     fetchTasks();
   }, []);
 
-  
   async function sendTask() {
     const token = await getCookieClient();
 
@@ -57,7 +48,7 @@ export default function Home({ initialTaskName = "" }: Task) {
     }
 
     try {
-      const response = await api.post(
+      const response = await api.post<TaskItem>(
         "/Task",
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
@@ -73,14 +64,17 @@ export default function Home({ initialTaskName = "" }: Task) {
     }
   }
 
-  
   async function doneTask(taskId: string) {
     try {
       const token = await getCookieClient();
 
-      await api.patch("/Task", {taskId}, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await api.patch(
+        "/Task",
+        { taskId },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       listTask((prevList) =>
         prevList.map((task) =>
@@ -92,14 +86,13 @@ export default function Home({ initialTaskName = "" }: Task) {
     }
   }
 
- 
   async function deleteTask(taskId: string) {
     try {
       const token = await getCookieClient();
 
       await api.delete("/Task", {
         data: { taskId },
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       listTask((prevList) => prevList.filter((task) => task.id !== taskId));
@@ -108,7 +101,6 @@ export default function Home({ initialTaskName = "" }: Task) {
     }
   }
 
- 
   async function killSession() {
     Cookies.remove("session", { path: "/" });
   }
@@ -150,12 +142,14 @@ export default function Home({ initialTaskName = "" }: Task) {
                 className={style.iconButton}
                 onClick={() => doneTask(item.id)}
                 disabled={item.done}
+                aria-label={`Marcar tarefa ${item.name} como feita`}
               >
                 <ClipboardCheck size={20} />
               </button>
               <button
                 className={style.iconButtonDelete}
                 onClick={() => deleteTask(item.id)}
+                aria-label={`Deletar tarefa ${item.name}`}
               >
                 <ClipboardX size={20} />
               </button>
