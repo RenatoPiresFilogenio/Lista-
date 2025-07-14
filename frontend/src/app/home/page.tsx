@@ -31,8 +31,8 @@ export default function Home({ initialTaskName = "" }: Task) {
 
         
         listTask(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar tarefas:", error);
+      } catch {
+        
       }
     }
 
@@ -58,8 +58,8 @@ export default function Home({ initialTaskName = "" }: Task) {
 
       listTask((prevList) => [...prevList, createdTask]);
       setTask("");
-    } catch (error) {
-      console.error("Erro ao criar tarefa:", error);
+    } catch {
+      console.error("Erro ao criar tarefa:");
       alert("Erro ao criar tarefa");
     }
   }
@@ -81,8 +81,8 @@ export default function Home({ initialTaskName = "" }: Task) {
           task.id === taskId ? { ...task, done: true } : task
         )
       );
-    } catch (error) {
-      console.error("Erro ao marcar tarefa como feita:", error);
+    } catch {
+      console.error("Erro ao marcar tarefa como feita");
     }
   }
 
@@ -96,8 +96,8 @@ export default function Home({ initialTaskName = "" }: Task) {
       });
 
       listTask((prevList) => prevList.filter((task) => task.id !== taskId));
-    } catch (error) {
-      console.error("Erro ao deletar tarefa:", error);
+    } catch {
+      console.error("Erro ao deletar tarefa:");
     }
   }
 

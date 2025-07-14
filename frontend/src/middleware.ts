@@ -35,7 +35,7 @@ async function validateToken(token:string) {
             }
         })
         return true;
-    } catch (error) {
+    } catch  {
         return false;
     }
 }
