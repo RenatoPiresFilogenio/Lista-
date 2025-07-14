@@ -7,18 +7,14 @@ import Link from "next/link";
 import Cookies from "js-cookie";
 import { getCookieClient } from "@/lib/getCookieClient";
 
-interface Task {
-  initialTaskName?: string;
-}
-
 interface TaskItem {
   id: string;
   name: string;
   done: boolean;
 }
 
-export default function Home({ initialTaskName = "" }: Task) {
-  const [name, setTask] = useState(initialTaskName);
+export default function Home() {
+  const [name, setTask] = useState("");
   const [taskList, listTask] = useState<TaskItem[]>([]);
 
   useEffect(() => {
@@ -28,38 +24,30 @@ export default function Home({ initialTaskName = "" }: Task) {
         const response = await api.get<TaskItem[]>("/taskList", {
           headers: { Authorization: `Bearer ${token}` },
         });
-
-        
         listTask(response.data);
-      } catch {
-        
+      } catch (error) {
+        console.error("Erro ao buscar tarefas:", error);
       }
     }
-
     fetchTasks();
   }, []);
 
   async function sendTask() {
     const token = await getCookieClient();
-
     if (!name.trim()) {
       alert("Tarefa precisa de nome");
       return;
     }
-
     try {
       const response = await api.post<TaskItem>(
         "/Task",
         { name },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      const createdTask = response.data;
-
-      listTask((prevList) => [...prevList, createdTask]);
+      listTask((prevList) => [...prevList, response.data]);
       setTask("");
-    } catch {
-      console.error("Erro ao criar tarefa:");
+    } catch (error) {
+      console.error("Erro ao criar tarefa:", error);
       alert("Erro ao criar tarefa");
     }
   }
@@ -67,7 +55,6 @@ export default function Home({ initialTaskName = "" }: Task) {
   async function doneTask(taskId: string) {
     try {
       const token = await getCookieClient();
-
       await api.patch(
         "/Task",
         { taskId },
@@ -75,29 +62,26 @@ export default function Home({ initialTaskName = "" }: Task) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-
       listTask((prevList) =>
         prevList.map((task) =>
           task.id === taskId ? { ...task, done: true } : task
         )
       );
-    } catch {
-      console.error("Erro ao marcar tarefa como feita");
+    } catch (error) {
+      console.error("Erro ao marcar tarefa como feita:", error);
     }
   }
 
   async function deleteTask(taskId: string) {
     try {
       const token = await getCookieClient();
-
       await api.delete("/Task", {
         data: { taskId },
         headers: { Authorization: `Bearer ${token}` },
       });
-
       listTask((prevList) => prevList.filter((task) => task.id !== taskId));
-    } catch {
-      console.error("Erro ao deletar tarefa:");
+    } catch (error) {
+      console.error("Erro ao deletar tarefa:", error);
     }
   }
 
