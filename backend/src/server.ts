@@ -12,9 +12,11 @@ const app = express();
 app.use(express.json());
 
 app.use(cors({
-  origin: front,
+  origin: front , // seu frontend
+  allowedHeaders: ['Authorization', 'Content-Type'],
+  methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+  credentials: false
 }));
-
 app.use(helmet());
 
 app.use(helmet.contentSecurityPolicy({
