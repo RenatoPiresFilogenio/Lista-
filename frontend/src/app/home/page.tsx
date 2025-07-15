@@ -17,6 +17,7 @@ export default function Home() {
   const [name, setTask] = useState("");
   const [taskList, listTask] = useState<TaskItem[]>([]);
 
+//// renderiza toda vez que é alterada
   useEffect(() => {
     async function fetchTasks() {
       try {
@@ -31,13 +32,15 @@ export default function Home() {
     }
     fetchTasks();
   }, []);
-
+/// envia task para back-end
   async function sendTask() {
     const token = await getCookieClient();
+
     if (!name.trim()) {
       alert("Tarefa precisa de nome");
       return;
     }
+    
     try {
       const response = await api.post<TaskItem>(
         "/Task",
@@ -52,6 +55,7 @@ export default function Home() {
     }
   }
 
+//// marca como concluida
   async function doneTask(taskId: string) {
     try {
       const token = await getCookieClient();
